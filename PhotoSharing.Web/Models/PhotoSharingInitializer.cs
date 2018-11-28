@@ -78,13 +78,13 @@ namespace PhotoSharing.Web.Models
         /// <returns></returns>
         private byte[] GetFileBytes(string path)
         {
-            FileStream fileOnDisk = new FileStream(HttpRuntime.AppDomainAppPath + path, FileMode.Open);
-            byte[] fileBytes;
-            using (BinaryReader br = new BinaryReader(fileOnDisk))
+            FileStream fileStream = new FileStream(HttpRuntime.AppDomainAppPath + path, FileMode.Open);
+            byte[] bytes;
+            using (BinaryReader reader = new BinaryReader(fileStream))
             {
-                fileBytes = br.ReadBytes((int)fileOnDisk.Length);
+                bytes = reader.ReadBytes((int)fileStream.Length);
             }
-            return fileBytes;
+            return bytes;
         }
 
     }

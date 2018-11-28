@@ -20,6 +20,9 @@ namespace PhotoSharing.Web.Models
         /// </value>
         public DbSet<Comment> Comments { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhotoSharingContext"/> class.
+        /// </summary>
         public PhotoSharingContext() : base("PhotoSharingDb")
         {
         }

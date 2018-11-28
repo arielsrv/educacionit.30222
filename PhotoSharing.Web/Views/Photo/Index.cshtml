@@ -14,10 +14,7 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageMimeType)
-        </th>
+        </th>        
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
@@ -30,28 +27,23 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (Photo photo in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(model => photo.Title)
+            </td>            
+            <td>
+                @Html.DisplayFor(model => photo.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageMimeType)
+                @Html.DisplayFor(model => photo.CreatedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(model => photo.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit" , new { id = item.Id }) |
-                @Html.ActionLink("Display", "Display", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Display", "Display", new { id = photo.Id })
             </td>
         </tr>
     }
