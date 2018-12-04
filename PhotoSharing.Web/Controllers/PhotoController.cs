@@ -1,5 +1,6 @@
 ﻿using PhotoSharing.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,7 +17,26 @@ namespace PhotoSharing.Web.Controllers
 
         public ActionResult Index()
         {
-            return View("Index", context.Photos.ToList());
+            return View("Index");
+        }
+
+        [ChildActionOnly]
+        public ActionResult _PhotoGallery(int number = 0)
+        {
+            List<Photo> photos;
+
+            if (number == 0)
+            {
+                photos = context.Photos.ToList();
+            }
+            else
+            {
+                photos = (from p in context.Photos
+                          orderby p.CreatedDate descending
+                          select p).Take(number).ToList();
+            }
+
+            return PartialView("_PhotoGallery", photos);
         }
 
         public ActionResult Display(int id)
@@ -29,16 +49,23 @@ namespace PhotoSharing.Web.Controllers
             return View("Display", photo);
         }
 
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Create()
         {
-            Photo photo = new Photo
-            {
-                CreatedDate = DateTime.Today
-            };
-
-            return View("Create", photo);
+            Photo newPhoto = new Photo();
+            newPhoto.CreatedDate = DateTime.Today;
+            return View("Create", newPhoto);
         }
 
+        /// <summary>
+        /// Creates the specified photo.
+        /// </summary>
+        /// <param name="photo">The photo.</param>
+        /// <param name="image">The image.</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Create(Photo photo, HttpPostedFileBase image)
         {

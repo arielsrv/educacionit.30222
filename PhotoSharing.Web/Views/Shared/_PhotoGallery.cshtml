@@ -1,0 +1,27 @@
+﻿@using PhotoSharing.Web.Models
+@model IEnumerable<Photo>
+@{
+    Layout = null;
+}
+
+@foreach (Photo photo in Model)
+{
+    <h3>"@photo.Title"</h3>
+
+    if (photo.PhotoFile != null)
+    {
+        <img width="200" src="@Url.Action("GetImage", "Photo", new { id = photo.Id })" />
+    }
+
+    <p>
+        Created By:
+        @Html.DisplayFor(model => photo.UserName)
+    </p>
+
+    <p>
+        Created On:
+        @Html.DisplayFor(model => photo.CreatedDate)
+    </p>
+
+    @Html.ActionLink("Display", "Display", new { id = photo.Id })
+}
