@@ -1,55 +1,40 @@
 ﻿@using PhotoSharing.Web.Models
 @model Photo
 @{
-    ViewBag.Title = "Display";    
+    Layout = null;
 }
 
-<h2>Display</h2>
+<!DOCTYPE html>
 
-<fieldset>
-    <legend>Photo</legend>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.Title</title>
+</head>
+<body>
+    <div>
+        <h2>"@Model.Title"</h2>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Title)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
-    </div>
-
-    @if (Model.PhotoFile != null)
-    {
         <img width="800" src="@Url.Action("GetImage", "Photo", new { id = Model.Id })" />
-    }
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.ImageMimeType)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ImageMimeType)
-    </div>
+        <p>
+            @Html.DisplayFor(model => model.Description)
+        </p>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
+        <p>
+            @Html.DisplayNameFor(model => model.UserName):
+            @Html.DisplayFor(model => model.UserName)
+        </p>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.CreatedDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CreatedDate)
-    </div>
+        <p>
+            @Html.DisplayNameFor(model => model.CreatedDate):
+            @Html.DisplayFor(model => model.CreatedDate)
+        </p>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.UserName)
+        <p>
+            @Html.ActionLink("Back to List", "Index")
+        </p>
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.UserName)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+</body>
+</html>
 </p>

@@ -132,11 +132,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\IPhotoSharingContext.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\PhotoSharingContext.cs" />
     <Compile Include="Models\PhotoSharingInitializer.cs" />
@@ -148,10 +150,24 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Error.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\blackberries.JPG" />
+    <Content Include="Images\coastalview.jpg" />
+    <Content Include="Images\flower.JPG" />
+    <Content Include="Images\fungi.JPG" />
+    <Content Include="Images\headland.jpg" />
+    <Content Include="Images\orchard.JPG" />
+    <Content Include="Images\path.JPG" />
+    <Content Include="Images\pebbles.jpg" />
+    <Content Include="Images\pinkflower.JPG" />
+    <Content Include="Images\pontoon.JPG" />
+    <Content Include="Images\ripples.jpg" />
+    <Content Include="Images\rockpool.jpg" />
+    <Content Include="Images\track.JPG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -173,11 +189,11 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Photo\Display.cshtml" />
     <Content Include="Views\Photo\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Photo\Create.cshtml" />
+    <Content Include="Views\Shared\_PhotoGallery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

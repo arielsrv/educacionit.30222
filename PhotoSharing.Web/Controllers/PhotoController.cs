@@ -1,27 +1,66 @@
 ﻿using PhotoSharing.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace PhotoSharing.Web.Controllers
 {
+    [HandleError(View = "Error")]
     [LogActionFilter]
     public class PhotoController : Controller
     {
-        private PhotoSharingContext context = new PhotoSharingContext();
+        private IPhotoSharingContext context;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhotoController"/> class.
+        /// </summary>
+        public PhotoController()
+        {
+            this.context = new PhotoSharingContext();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhotoController" /> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        public PhotoController(IPhotoSharingContext context)
+        {
+            this.context = context;
+        }
 
         //
         // GET: /Photo/
 
         public ActionResult Index()
         {
-            return View("Index", context.Photos.ToList());
+            return View("Index");
+        }
+
+        [ChildActionOnly]
+        public ActionResult _PhotoGallery(int number = 0)
+        {
+            List<Photo> photos;
+
+            if (number == 0)
+            {
+                photos = context.Photos.ToList();
+            }
+            else
+            {
+                photos = (from p in context.Photos
+                          orderby p.CreatedDate descending
+                          select p).Take(number).ToList();
+            }
+
+            return PartialView("_PhotoGallery", photos);
         }
 
         public ActionResult Display(int id)
         {
-            Photo photo = context.Photos.Find(id);
+            Photo photo = context.FindPhotoById(id);
+            //Photo photo = context.Photos.Find(id);
             if (photo == null)
             {
                 return HttpNotFound();
@@ -29,16 +68,23 @@ namespace PhotoSharing.Web.Controllers
             return View("Display", photo);
         }
 
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Create()
         {
-            Photo photo = new Photo
-            {
-                CreatedDate = DateTime.Today
-            };
-
-            return View("Create", photo);
+            Photo newPhoto = new Photo();
+            newPhoto.CreatedDate = DateTime.Today;
+            return View("Create", newPhoto);
         }
 
+        /// <summary>
+        /// Creates the specified photo.
+        /// </summary>
+        /// <param name="photo">The photo.</param>
+        /// <param name="image">The image.</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Create(Photo photo, HttpPostedFileBase image)
         {
@@ -55,7 +101,8 @@ namespace PhotoSharing.Web.Controllers
                     photo.PhotoFile = new byte[image.ContentLength];
                     image.InputStream.Read(photo.PhotoFile, 0, image.ContentLength);
                 }
-                context.Photos.Add(photo);
+                context.Add<Photo>(photo);
+                //context.Photos.Add(photo);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -63,7 +110,8 @@ namespace PhotoSharing.Web.Controllers
 
         public ActionResult Delete(int id)
         {
-            Photo photo = context.Photos.Find(id);
+            Photo photo = context.FindPhotoById(id);
+            //Photo photo = context.Photos.Find(id);
             if (photo == null)
             {
                 return HttpNotFound();
@@ -75,15 +123,18 @@ namespace PhotoSharing.Web.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Photo photo = context.Photos.Find(id);
-            context.Photos.Remove(photo);
+            Photo photo = context.FindPhotoById(id);
+            //Photo photo = context.Photos.Find(id);
+            context.Delete<Photo>(photo);
+            //context.Photos.Remove(photo);
             context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public FileContentResult GetImage(int id)
         {
-            Photo photo = context.Photos.Find(id);
+            Photo photo = context.FindPhotoById(id);
+            //Photo photo = context.Photos.Find(id);
             if (photo != null)
             {
                 return File(photo.PhotoFile, photo.ImageMimeType);
