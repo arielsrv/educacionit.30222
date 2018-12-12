@@ -1,14 +1,13 @@
-﻿using System;
+﻿using PhotoSharing.Web.Models;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using PhotoSharing.Web.Models;
 
 namespace PhotoSharing.Test
 {
-    class FakePhotoSharingContext : IPhotoSharingContext
+    public class FakePhotoSharingContext : IPhotoSharingContext
     {
-        InternalDatabase db = new InternalDatabase();
+        private IDictionary<Type, object> db = new Dictionary<Type, object>();
 
         /// <summary>
         /// Gets or sets the photos.
@@ -18,8 +17,20 @@ namespace PhotoSharing.Test
         /// </value>
         public IQueryable<Photo> Photos
         {
-            get { return db.Get<Photo>().AsQueryable(); }
-            set { db.Use<Photo>(value); }
+            get
+            {
+                Type key = typeof(List<Photo>);
+                return ((List<Photo>)db[key]).AsQueryable();
+            }
+            set
+            {
+                Type key = typeof(List<Photo>); 
+
+                if (db.ContainsKey(key))
+                    db.Remove(key);
+
+                db.Add(key, new List<Photo>(value));
+            }
         }
 
         /// <summary>
@@ -30,8 +41,20 @@ namespace PhotoSharing.Test
         /// </value>
         public IQueryable<Comment> Comments
         {
-            get { return db.Get<Comment>().AsQueryable(); }
-            set { db.Use<Comment>(value); }
+            get
+            {
+                Type key = typeof(List<Comment>);
+                return ((List<Comment>)db[key]).AsQueryable();
+            }
+            set
+            {
+                Type key = typeof(List<Comment>);
+
+                if (db.ContainsKey(key))
+                    db.Remove(key);
+
+                db.Add(key, new List<Comment>(value));
+            }
         }
 
         /// <summary>
@@ -60,7 +83,8 @@ namespace PhotoSharing.Test
         /// <returns></returns>
         public T Add<T>(T entity) where T : class
         {
-            db.Get<T>().Add(entity);
+            Type type = typeof(List<T>);
+            ((List<T>)db[type]).Add(entity);
             return entity;
         }
 
@@ -91,7 +115,6 @@ namespace PhotoSharing.Test
             return item;
         }
 
-
         /// <summary>
         /// Deletes the specified entity.
         /// </summary>
@@ -100,7 +123,8 @@ namespace PhotoSharing.Test
         /// <returns></returns>
         public T Delete<T>(T entity) where T : class
         {
-            db.Get<T>().Remove(entity);
+            Type type = typeof(List<T>);
+            ((List<T>)db[type]).Remove(entity);
             return entity;
         }
 
@@ -116,48 +140,6 @@ namespace PhotoSharing.Test
                           select p).FirstOrDefault();
 
             return item;
-        }
-
-        class InternalDatabase : KeyedCollection<Type, object>
-        {
-            /// <summary>
-            /// Uses the specified source data.
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <param name="sourceData">The source data.</param>
-            /// <returns></returns>
-            public HashSet<T> Use<T>(IEnumerable<T> sourceData)
-            {
-                var set = new HashSet<T>(sourceData);
-                if (Contains(typeof(T)))
-                {
-                    Remove(typeof(T));
-                }
-                Add(set);
-                return set;
-            }
-
-            /// <summary>
-            /// Gets this instance.
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <returns></returns>
-            public HashSet<T> Get<T>()
-            {
-                return (HashSet<T>)this[typeof(T)];
-            }
-
-            /// <summary>
-            /// When implemented in a derived class, extracts the key from the specified element.
-            /// </summary>
-            /// <param name="item">The element from which to extract the key.</param>
-            /// <returns>
-            /// The key for the specified element.
-            /// </returns>
-            protected override Type GetKeyForItem(object item)
-            {
-                return item.GetType().GetGenericArguments().Single();
-            }
         }
     }
 }
