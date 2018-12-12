@@ -13,6 +13,9 @@
     <div>
         <p>Enjoy it.</p>
 
+        Menu: @Html.MvcSiteMap().Menu(false, false, true)
+        Current Location: @Html.MvcSiteMap().SiteMapPath()  
+        
         <h2>Latest Photos:</h2>
 
         @Html.Action("_PhotoGallery", "Photo", new { number = 3 })

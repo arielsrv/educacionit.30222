@@ -104,6 +104,20 @@ namespace PhotoSharing.Test
             return entity;
         }
 
+        /// <summary>
+        /// Finds the photo by title.
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <returns></returns>
+        public Photo FindPhotoByTitle(string title)
+        {
+            Photo item = (from p in this.Photos
+                          where p.Title == title
+                          select p).FirstOrDefault();
+
+            return item;
+        }
+
         class InternalDatabase : KeyedCollection<Type, object>
         {
             /// <summary>
