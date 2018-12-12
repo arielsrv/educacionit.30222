@@ -67,5 +67,13 @@ namespace PhotoSharing.Web.Models
         {
             return Set<T>().Remove(entity);
         }
+
+        public Photo FindPhotoByTitle(string title)
+        {
+            Photo photo = (from p in Set<Photo>()
+                           where p.Title == title
+                           select p).FirstOrDefault();
+            return photo;
+        }
     }
 }
