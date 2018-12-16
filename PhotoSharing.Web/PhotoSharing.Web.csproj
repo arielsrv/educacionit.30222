@@ -143,6 +143,7 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IPhotoSharingContext.cs" />
     <Compile Include="Models\Photo.cs" />
+    <Compile Include="Models\PhotoDynamicNodeProvider.cs" />
     <Compile Include="Models\PhotoSharingContext.cs" />
     <Compile Include="Models\PhotoSharingInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,6 +208,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Photo\Create.cshtml" />
     <Content Include="Views\Shared\_PhotoGallery.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\MainLayout.cshtml" />
+    <Content Include="Views\Shared\MainLayout.Mobile.cshtml" />
+    <Content Include="Views\Photo\Delete.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
