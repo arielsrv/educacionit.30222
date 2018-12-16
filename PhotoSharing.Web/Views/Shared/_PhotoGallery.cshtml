@@ -1,27 +1,40 @@
 ﻿@using PhotoSharing.Web.Models
 @model IEnumerable<Photo>
-@{
-    Layout = null;
-}
 
-@foreach (Photo photo in Model)
+@foreach (var item in Model)
 {
-    <h3>"@photo.Title"</h3>
+    <div class="photo-index-card">
+        <h3>"@item.Title"</h3>
 
-    if (photo.PhotoFile != null)
-    {
-        <img width="200" src="@Url.Action("GetImage", "Photo", new { id = photo.Id })" />
-    }
+        @if (item.PhotoFile != null)
+        {
+            <img class="photo-index-card-img" src="@Url.Action("GetImage", "Photo", new { id = item.Id })" />
+        }
 
-    <p>
-        Created By:
-        @Html.DisplayFor(model => photo.UserName)
-    </p>
+        <div class="photo-metadata">
 
-    <p>
-        Created On:
-        @Html.DisplayFor(model => photo.CreatedDate)
-    </p>
+            <div>
+                <span class="display-label">
+                    Created By:
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => item.UserName)
+                </span>
+            </div>
 
-    @Html.ActionLink("Display", "Display", new { id = photo.Id })
+            <div>
+                <span class="display-label">
+                    Created On:
+                </span>
+                <span class="display-field">
+                    @Html.DisplayFor(model => item.CreatedDate)
+                </span>
+            </div>
+
+        </div>
+
+        @Html.ActionLink("Display", "Display", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+
+    </div>
 }
