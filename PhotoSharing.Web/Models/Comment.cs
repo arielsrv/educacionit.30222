@@ -46,5 +46,13 @@ namespace PhotoSharing.Web.Models
         /// The photo.
         /// </value>
         public virtual Photo Photo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the photo identifier.
+        /// </summary>
+        /// <value>
+        /// The photo identifier.
+        /// </value>
+        public virtual int PhotoId { get; set; }
     }
 }
