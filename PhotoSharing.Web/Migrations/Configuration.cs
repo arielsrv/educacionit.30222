@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Web;
-
-namespace PhotoSharing.Web.Models
+namespace PhotoSharing.Web.Migrations
 {
-    public class PhotoSharingInitializer : DropCreateDatabaseAlways<PhotoSharingContext>
-    {        
-        //This method puts sample data into the database
-        protected override void Seed(PhotoSharingContext context)
+    using PhotoSharing.Web.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.IO;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<PhotoSharing.Web.Models.PhotoSharingContext>
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+            ContextKey = "PhotoSharing.Web.Models.PhotoSharingContext";
+        }
+
+        protected override void Seed(PhotoSharing.Web.Models.PhotoSharingContext context)
         {
             base.Seed(context);
 
@@ -21,7 +27,7 @@ namespace PhotoSharing.Web.Models
                     Title = "Me standing on top of a mountain",
                     Description = "I was very impressed with myself",
                     UserName = "Fred",
-                    PhotoFile = GetFileBytes("\\Images\\flower.jpg"),
+                    PhotoFile = GetFileBytes(@"\Images\flower.jpg"),
                     ImageMimeType = "image/jpeg",
                     CreatedDate = DateTime.Today
                 },
@@ -29,7 +35,7 @@ namespace PhotoSharing.Web.Models
                     Title = "My New Adventure Works Bike",
                     Description = "It's the bees knees!",
                     UserName = "Fred",
-                    PhotoFile = GetFileBytes("\\Images\\orchard.jpg"),
+                    PhotoFile = GetFileBytes(@"\Images\orchard.jpg"),
                     ImageMimeType = "image/jpeg",
                     CreatedDate = DateTime.Today
                 },
@@ -37,7 +43,7 @@ namespace PhotoSharing.Web.Models
                     Title = "View from the start line",
                     Description = "I took this photo just before we started over my handle bars.",
                     UserName = "Sue",
-                    PhotoFile = GetFileBytes("\\Images\\path.jpg"),
+                    PhotoFile = GetFileBytes(@"\Images\path.jpg"),
                     ImageMimeType = "image/jpeg",
                     CreatedDate = DateTime.Today
                 }
@@ -48,19 +54,19 @@ namespace PhotoSharing.Web.Models
             //Create some comments
             var comments = new List<Comment>
             {
-                new Comment {                    
+                new Comment {
                     UserName = "Bert",
                     Subject = "A Big Mountain",
                     Body = "That looks like a very high mountain you have climbed",
                     Photo = photos[0]
                 },
-                new Comment {                    
+                new Comment {
                     UserName = "Sue",
                     Subject = "So?",
                     Body = "I climbed a mountain that high before breakfast everyday",
                     Photo = photos[0]
                 },
-                new Comment {                    
+                new Comment {
                     UserName = "Fred",
                     Subject = "Jealous",
                     Body = "Wow, that new bike looks great!",
@@ -78,14 +84,14 @@ namespace PhotoSharing.Web.Models
         /// <returns></returns>
         private byte[] GetFileBytes(string path)
         {
-            FileStream fileStream = new FileStream(HttpRuntime.AppDomainAppPath + path, FileMode.Open);
+            string solutionFolder =  AppDomain.CurrentDomain.BaseDirectory + "..\\";
+            FileStream fileOnDisk = new FileStream(string.Concat(solutionFolder, path), FileMode.Open);
             byte[] bytes;
-            using (BinaryReader reader = new BinaryReader(fileStream))
+            using (BinaryReader reader = new BinaryReader(fileOnDisk))
             {
-                bytes = reader.ReadBytes((int)fileStream.Length);
+                bytes = reader.ReadBytes((int)fileOnDisk.Length);
             }
             return bytes;
         }
-
     }
 }
