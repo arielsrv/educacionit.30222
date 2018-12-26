@@ -157,5 +157,10 @@ namespace PhotoSharing.Web.Controllers
                 return null;
             }
         }
+
+        public ActionResult SlideShow()
+        {
+            return View("SlideShow", context.Photos.ToList());
+        }
     }
 }
