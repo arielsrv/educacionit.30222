@@ -1,4 +1,4 @@
-﻿using MvcSiteMapProvider.Extensibility;
+﻿using MvcSiteMapProvider;
 using System.Collections.Generic;
 
 namespace PhotoSharing.Web.Models
@@ -10,8 +10,11 @@ namespace PhotoSharing.Web.Models
         /// <summary>
         /// Gets the dynamic node collection.
         /// </summary>
-        /// <returns></returns>
-        public override IEnumerable<DynamicNode> GetDynamicNodeCollection()
+        /// <param name="node">The current node.</param>
+        /// <returns>
+        /// A dynamic node collection.
+        /// </returns>
+        public override IEnumerable<DynamicNode> GetDynamicNodeCollection(ISiteMapNode node)
         {
             List<DynamicNode> returnList = new List<DynamicNode>();
 
@@ -21,6 +24,7 @@ namespace PhotoSharing.Web.Models
                 newNode.Title = item.Title;
                 newNode.ParentKey = "AllPhotos";
                 newNode.RouteValues.Add("id", item.Id);
+                
                 returnList.Add(newNode);
             }
 
