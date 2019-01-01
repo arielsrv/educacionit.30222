@@ -133,6 +133,7 @@
     <Compile Include="Models\PhotoDynamicNodeProvider.cs" />
     <Compile Include="Models\PhotoSharingContext.cs" />
     <Compile Include="Models\PhotoSharingInitializer.cs" />
+    <Compile Include="Modules\CustomHttpModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Filters\LogActionFilter.cs" />
   </ItemGroup>
