@@ -39,6 +39,13 @@
         Current Location: @Html.MvcSiteMap().SiteMapPath()
     </div>
 
+    @if (Session["Favorites"] != null)
+    {
+        <div id="favourites-link">
+            @Html.ActionLink("Favorite Photos", "FavoritesSlideshow", "Photo")
+        </div>
+    }
+
     <div>
         @RenderBody()
     </div>
