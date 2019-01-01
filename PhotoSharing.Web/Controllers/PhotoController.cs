@@ -33,8 +33,7 @@ namespace PhotoSharing.Web.Controllers
 
         //
         // GET: /Photo/
-
-        [OutputCache(Duration=600, Location=OutputCacheLocation.Server, VaryByParam="none")]
+       
         public ActionResult Index()
         {
             return View("Index");
@@ -84,6 +83,7 @@ namespace PhotoSharing.Web.Controllers
         /// Creates this instance.
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public ActionResult Create()
         {
             Photo newPhoto = new Photo();
@@ -98,6 +98,7 @@ namespace PhotoSharing.Web.Controllers
         /// <param name="image">The image.</param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Photo photo, HttpPostedFileBase image)
         {
             photo.CreatedDate = DateTime.Today;

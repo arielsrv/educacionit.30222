@@ -77,6 +77,7 @@ namespace PhotoSharing.Web.Controllers
         /// </summary>
         /// <param name="photoId">The photo identifier.</param>
         /// <returns></returns>
+        [Authorize]
         public PartialViewResult _Create(int photoId)
         {
             //Create the new comment
@@ -94,6 +95,7 @@ namespace PhotoSharing.Web.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
+        [Authorize]
         public ActionResult Delete(int id = 0)
         {
             Comment comment = context.FindCommentById(id);
@@ -112,6 +114,7 @@ namespace PhotoSharing.Web.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
