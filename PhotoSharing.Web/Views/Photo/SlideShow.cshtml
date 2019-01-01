@@ -13,20 +13,22 @@
 </div>
 
 <div id="slide-show">
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
 
         <div class="slide-show-card">
             <h3>
-                @Html.ActionLink(item.Title, "Display", new { id = item.Id })
+                @Html.ActionLink(item.Title, "Details", new { id = item.Id })
             </h3>
             <p>
                 By @Html.DisplayFor(modelItem => item.UserName)
             </p>
-            @if (item.PhotoFile != null) {
+            @if (item.PhotoFile != null)
+            {
                 <img height="530" src="@Url.Action("GetImage", "Photo", new { id = item.Id })" />
             }
         </div>
-        
+
     }
 
 </div>
